@@ -5,5 +5,9 @@
   "files": [
     "./index.ts",
     "./shims.d.ts"
-  ]
+  ],
+  "compilerOptions":{
+    "downlevelIteration": true,
+    "outDir": "./dist"
+  }
 }
