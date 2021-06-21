@@ -1,0 +1,9 @@
+{
+  "ts-node": {
+    "files": true
+  },
+  "files": [
+    "./index.ts",
+    "./shims.d.ts"
+  ]
+}

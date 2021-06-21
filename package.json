@@ -1,0 +1,23 @@
+{
+  "name": "sfcc-inventory-processor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node ./index.ts -i ./inventory.xml -o ./inventory-testing.xml",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "arg-parser": "^1.2.0",
+    "cheerio": "^1.0.0-rc.10",
+    "readline-sync": "^1.4.10",
+    "xml-beautifier": "^0.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^15.12.4",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.3.4"
+  }
+}
