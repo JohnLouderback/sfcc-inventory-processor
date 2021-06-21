@@ -8,6 +8,9 @@
   ],
   "compilerOptions":{
     "downlevelIteration": true,
-    "outDir": "./dist"
+    "outDir": "./dist/",
+    "target": "es2020",
+    "skipLibCheck": true,
+    "module": "commonjs"
   }
 }

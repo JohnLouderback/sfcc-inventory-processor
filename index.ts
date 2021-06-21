@@ -9,13 +9,15 @@ const readFile = util.promisify(fs.readFile);
 const writeFile = util.promisify(fs.writeFile);
 
 const args = new Args('Inventory XML Parser', '1.0')
-args.add({ name: 'input', desc: 'input inventory file', required: true, switches: [ '-i', '--input-file'], value: 'file' });
-args.add({ name: 'output', desc: 'output inventory file', required: true, switches: [ '-o', '--output-file'], value: 'file' });
+args.add({ name: '--input-file', desc: 'input inventory file', required: true, switches: [ '-i', '--input-file']});
+args.add({ name: '--output-file', desc: 'output inventory file', required: true, switches: [ '-o', '--output-file']});
 args.parse();
 
 (async () => {
   const inputFile = args.params.input;
   const outputFile = args.params.output;
+
+  if (!inputFile || !outputFile) return;
 
   const $ = cheerio.load(await readFile(inputFile), {
     xmlMode: true
