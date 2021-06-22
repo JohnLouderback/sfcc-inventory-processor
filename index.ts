@@ -5,6 +5,7 @@ import * as fs from 'fs';
 import readline = require('readline-sync');
 import * as util from 'util';
 import beautify = require('xml-beautifier');
+import * as moment from 'moment';
 
 const readFile = util.promisify(fs.readFile);
 const writeFile = util.promisify(fs.writeFile);
@@ -14,12 +15,17 @@ args.add({ name: 'input', desc: 'input inventory file', required: true, switches
 args.add({ name: 'output', desc: 'output inventory file', required: true, switches: [ '-o', '--output-file'], value: 'output_file'});
 args.parse();
 
+const now = (): string => {
+  return `[${moment().format('h:mm:ss a')}]`;
+}
+
 (async () => {
   const inputFile = args.params.input;
   const outputFile = args.params.output;
 
   if (!inputFile || !outputFile) return;
 
+  console.log(now() + ' Loading and parsing input/output files');
   const $ = cheerio.load(await readFile(inputFile), {
     xmlMode: true
   });
@@ -29,31 +35,50 @@ args.parse();
   });
 
   // Get the product ID we want to filter down to.
-  const masterProdIDs = readline.question('Enter master product ID(s) to add to output file (comma separated):\n').split(',').map((id: string) => id.trim());
+  const masterProdIDs: Array<string> = readline.question('Enter master product ID(s) to add to output file (comma separated):\n').split(',').map((id: string) => id.trim());
 
   // Ensure there are products to add, otherwise continue
   if (masterProdIDs.length) {
-    // Generate a selector that matches all records except the ones specified
-    const recordSelectors = masterProdIDs.map(id => `[product-id^="${id}"]`).join(', ');
+    console.log(now() + ' Gettings all records');
 
+    const $records = $('records record');
+
+    console.log(now() + ` There are ${$records.length} inventory records in the input inventory file`);
+
+    const $outputRecords = $2('records');
+
+    console.log(now() + ' Removing irrelevant records');
     // Remove all irrelevant products based on generated selector
-    $('records record').not(recordSelectors).remove();
+    $records.each((i, el) => {
+      const $el = $(el);
+      const currentProductID = $el.attr('product-id');
 
-    const $recordEls = $('records record');
+      if (masterProdIDs.some(prodID => currentProductID.trim().startsWith(prodID))) {
+        // Zero out allocations and ATS
+        $el.find('allocation').text('0');
+        $el.find('ats').text('0');
 
-    // Zero out allocations and ATS
-    $recordEls.find('allocation').text('0');
-    $recordEls.find('ats').text('0');
+        // Add this record to the output file records
+        $outputRecords.append($el);
+      }
+    })
 
-    // Add record els from the original file to the output file
-    $2('records').append($recordEls);
+    console.log(now() + ` There are ${$outputRecords.find('record').length} records matching ID(s) ${masterProdIDs.join(', ')}`);
+
+    console.log(now() + ' Adding records to output file');
 
     const outRecordEls = [...$2('record')];
 
+    console.log(now() + ' Sorting records in output file');
+
     // Sort the record els by their product-id
     outRecordEls.sort((a, b) => {
-      return Number($(a).attr('product-id') > $(b).attr('product-id'));
+      if($(a).attr('product-id') < $(b).attr('product-id')) { return -1; }
+      if($(a).attr('product-id') > $(b).attr('product-id')) { return 1; }
+      return 0;
     });
+
+    console.log(now() + ' Replacing records in output file with sorted records');
 
     // Clear out the records and add in the sorted records
     $2('records').html('').append(outRecordEls);
@@ -86,7 +111,7 @@ args.parse();
       $recordDateTime.text(dateTime.toISOString());
     }
 
-    if (readline.keyInYN('Should the same "back in stock" date be used for all of these products?')) {
+    if (readline.keyInYN(`Should the same "back in stock" date be used for all of these products? There are ${productIDs} matching products.`)) {
       const date = readline.question('Enter the "back in stock" date for these products:\n').trim();
       if (date) {
         productIDs.forEach((id: string) => updateBISRecord(id, date));

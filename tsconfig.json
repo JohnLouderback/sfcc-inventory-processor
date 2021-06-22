@@ -9,6 +9,7 @@
   "compilerOptions":{
     "downlevelIteration": true,
     "outDir": "./dist/",
+    "outFile": "./dist/sfcc-inventory-processor.js",
     "target": "es6",
     "skipLibCheck": true,
     "module": "commonjs"
