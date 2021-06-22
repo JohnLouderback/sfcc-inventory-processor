@@ -1,29 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <inventory xmlns="http://www.demandware.com/xml/impex/inventory/2007-05-31">
-  <inventory-list>
-    <header list-id="US_InventoryList">
-      <default-instock>true</default-instock>
-      <description>US Inventory List</description>
-      <use-bundle-inventory-only>false</use-bundle-inventory-only>
-      <on-order>false</on-order>
-    </header>
-    <records>
-      <record product-id="190108084313">
-        <allocation>100</allocation>
-        <allocation-timestamp>2021-02-26T17:10:40.000Z</allocation-timestamp>
-        <perpetual>false</perpetual>
-        <preorder-backorder-handling>none</preorder-backorder-handling>
-        <preorder-backorder-allocation>0</preorder-backorder-allocation>
-        <ats>100</ats>
-        <on-order>0</on-order>
-        <turnover>0</turnover>
-        <custom-attributes>
-          <custom-attribute attribute-id="DCList">
-            <value>ME1</value>
-            <value>ME2</value>
-          </custom-attribute>
-        </custom-attributes>
-      </record>
-    </records>
-  </inventory-list>
+    <inventory-list>
+        <header list-id="US_InventoryList">
+            <default-instock>
+                true
+            </default-instock>
+            <description>
+                US Inventory List
+            </description>
+            <use-bundle-inventory-only>
+                false
+            </use-bundle-inventory-only>
+            <on-order>
+                false
+            </on-order>
+        </header>
+        <records>
+            <record product-id="190108084313">
+                <allocation>
+                    100
+                </allocation>
+                <allocation-timestamp>
+                    2021-06-22T14:04:31.342Z
+                </allocation-timestamp>
+                <perpetual>
+                    false
+                </perpetual>
+                <preorder-backorder-handling>
+                    none
+                </preorder-backorder-handling>
+                <preorder-backorder-allocation>
+                    0
+                </preorder-backorder-allocation>
+                <ats>
+                    100
+                </ats>
+                <on-order>
+                    0
+                </on-order>
+                <turnover>
+                    0
+                </turnover>
+                <custom-attributes>
+                    <custom-attribute attribute-id="DCList">
+                        <value>
+                            ME1
+                        </value>
+                        <value>
+                            ME2
+                        </value>
+                    </custom-attribute>
+                </custom-attributes>
+            </record>
+            <record product-id="190108336696">
+                <allocation>
+                    0
+                </allocation>
+                <allocation-timestamp>
+                    2021-06-22T14:04:31.342Z
+                </allocation-timestamp>
+                <perpetual>
+                    false
+                </perpetual>
+                <preorder-backorder-handling>
+                    none
+                </preorder-backorder-handling>
+                <preorder-backorder-allocation>
+                    0
+                </preorder-backorder-allocation>
+                <in-stock-date>
+                    1990-01-26Z
+                </in-stock-date>
+                <in-stock-datetime>
+                    1990-01-26T19:00:00.000Z
+                </in-stock-datetime>
+                <ats>
+                    0
+                </ats>
+                <on-order>
+                    0
+                </on-order>
+                <turnover>
+                    0
+                </turnover>
+                <custom-attributes>
+                    <custom-attribute attribute-id="DCList">
+                        <value>
+                            ME1
+                        </value>
+                        <value>
+                            ME2
+                        </value>
+                    </custom-attribute>
+                </custom-attributes>
+            </record>
+        </records>
+    </inventory-list>
 </inventory>
